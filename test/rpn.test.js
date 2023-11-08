@@ -1,59 +1,51 @@
 const expect = require('chai').expect;
-const evaluateRPN = require('../src/rpn');
+const itParam = require('mocha-param');
 
+const { evaluateRPN } = require('../src/rpn');
 
 describe('RPN', function () {
-    describe('normal cases', function () {
-        describe('+', function () {
-            it('should work with two numbers', function () {
-                expect(evaluateRPN('9 11 +')).to.equal('20');
-            });
-            it('should work with more than two numbers', function () {
-                expect(evaluateRPN('9 11 12 + +')).to.equal('32');
-            });
-        });
-        describe('-', function () {
-            it('should work with two numbers', function () {
-                expect(evaluateRPN('9 11 -')).to.equal('-2');
-            });
-            it('should work with more than two numbers', function () {
-                expect(evaluateRPN('9 11 12 - -')).to.equal('-14');
-            });
-        });
-        describe('*', function () {
-            it('should work with two numbers', function () {
-                expect(evaluateRPN('9 11 *')).to.equal('99');
-            });
-            it('should work with more than two numbers', function () {
-                expect(evaluateRPN('9 11 12 * *')).to.equal('1188');
-            });
-        });
-        describe('/', function () {
-            it('should work with two numbers', function () {
-                expect(evaluateRPN('99 9 /')).to.equal('11');
-            });
-            it('should work with more than two numbers', function () {
-                expect(evaluateRPN('120 2 6 / /')).to.equal('10');
-            });
-            it('should return int if result is float', function () {
-                expect(evaluateRPN('9 2 /')).to.be.an('4');
-            });
-            it('should return error if divide by 0', function () {
-                expect(evaluateRPN('9 0 /')).to.be.an('Error: division by zero');
-            });
-        });
-        describe('combinations', function () {
-            it('should work with multiple operations', function () {
-                expect(evaluateRPN('4 6 * 2 /')).to.be.an('12');
-            });
-            it('should work with a zigzag', function () {
-                expect(evaluateRPN('1 2 * 3 + 4 - 5 +')).to.equal('6');
-            });
-            it('should work when the operators are at the end', function () {
-                expect(evaluateRPN('4 2 3 + -')).to.be.an('-1');
-            });
+    describe('normal cases for evaluateRPN function', function () {
+        var testCasesPlus = [
+            { input: '9 11 +', expected: '20' },
+            { input: '9 11 12 + +', expected: '32' }
+        ];
+
+        var testCasesMinus = [
+            { input: '9 11 -', expected: '-2' },
+            { input: '9 11 12 - -', expected: '10' }
+        ];
+
+        var testCasesMultiply = [
+            { input: '9 11 *', expected: '99' },
+            { input: '9 11 12 * *', expected: '1188' }
+        ];
+
+        var testCasesDivide = [
+            { input: '99 9 /', expected: '11' },
+            { input: '120 2 6 / /', expected: '10' },
+            { input: '9 2 /', expected: '4' }, // Assuming the evaluateRPN function floors the result
+            { input: '9 0 /', expected: new Error('division by zero') }
+        ];
+
+        var testCasesCombinations = [
+            { input: '4 6 * 2 /', expected: '12' },
+            { input: '1 2 * 3 + 4 - 5 +', expected: '6' },
+            { input: '4 2 3 + -', expected: '-1' }
+        ];
+
+        var allTestCases = testCasesPlus.concat(testCasesMinus, testCasesMultiply, testCasesDivide, testCasesCombinations);
+
+        itParam("it should work", allTestCases, function (testCase) {
+            var actual = evaluateRPN(testCase.input);
+            if (testCase.expected instanceof Error) {
+                expect(actual).to.be.an('Error');
+                expect(actual.message).to.equal(testCase.expected.message);
+            } else {
+                expect(actual).to.equal(testCase.expected);
+            }
         });
     });
+
 
     describe('edge cases', function () {
         it("should accept only numbers and operators", function () {

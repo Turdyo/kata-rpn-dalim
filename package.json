@@ -4,11 +4,14 @@
     "mocha": "^10.2.0"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha -r ts-node/register",
     "dev": "bun main/rpn.ts"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.4",
-    "mocha-param": "^2.0.1"
+    "@types/node": "^20.9.0",
+    "mocha-param": "^2.0.1",
+    "ts-node": "^10.9.1",
+    "typescript-require": "^0.3.0"
   }
 }
