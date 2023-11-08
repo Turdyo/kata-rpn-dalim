@@ -4,7 +4,7 @@ const evaluateRPN = require('../src/rpn');
 
 describe('RPN', function () {
     describe('normal cases', function () {
-        describe('should work with +', function () {
+        describe('+', function () {
             it('should work with two numbers', function () {
                 expect(evaluateRPN('9 11 +')).to.equal('20');
             });
@@ -12,7 +12,7 @@ describe('RPN', function () {
                 expect(evaluateRPN('9 11 12 + +')).to.equal('32');
             });
         });
-        describe('should work with -', function () {
+        describe('-', function () {
             it('should work with two numbers', function () {
                 expect(evaluateRPN('9 11 -')).to.equal('-2');
             });
@@ -20,7 +20,7 @@ describe('RPN', function () {
                 expect(evaluateRPN('9 11 12 - -')).to.equal('-14');
             });
         });
-        describe('should work with *', function () {
+        describe('*', function () {
             it('should work with two numbers', function () {
                 expect(evaluateRPN('9 11 *')).to.equal('99');
             });
@@ -28,7 +28,7 @@ describe('RPN', function () {
                 expect(evaluateRPN('9 11 12 * *')).to.equal('1188');
             });
         });
-        describe('should work with /', function () {
+        describe('/', function () {
             it('should work with two numbers', function () {
                 expect(evaluateRPN('99 9 /')).to.equal('11');
             });
@@ -40,6 +40,17 @@ describe('RPN', function () {
             });
             it('should return error if divide by 0', function () {
                 expect(evaluateRPN('9 0 /')).to.be.an('Error: division by zero');
+            });
+        });
+        describe('combinations', function () {
+            it('should work with multiple operations', function () {
+                expect(evaluateRPN('4 6 * 2 /')).to.be.an('12');
+            });
+            it('should work with a zigzag', function () {
+                expect(evaluateRPN('1 2 * 3 + 4 - 5 +')).to.equal('6');
+            });
+            it('should work when the operators are at the end', function () {
+                expect(evaluateRPN('4 2 3 + -')).to.be.an('-1');
             });
         });
     });
@@ -54,7 +65,7 @@ describe('RPN', function () {
         it('should return the number if the input is only one number', function () {
             expect(evaluateRPN('9')).to.equal('9');
         });
-        it('should return error if the input contains one number and one operator', function () {
+        it('should return error if + is missing one argument', function () {
             expect(evaluateRPN('9 +')).to.be.an('Error: expecting two arguments for `+`, got one (9)');
         });
         it('should not accept an operator at first', function () {
