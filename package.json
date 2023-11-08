@@ -8,6 +8,7 @@
     "dev": "bun main/rpn.ts"
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.4"
+    "@types/mocha": "^10.0.4",
+    "mocha-param": "^2.0.1"
   }
 }
