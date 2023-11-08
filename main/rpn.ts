@@ -1,9 +1,10 @@
 const symbols = ["+", "-", "*", "/", "sqrt", "max"];
 
-console.log(evaluateRPN("9 11 12 + "))
+export function evaluateRPN(input: string): string {
+    return evaluateRPNInt(input).toString();
+}
 
-
-function evaluateRPN(input: string): number {
+export function evaluateRPNInt(input: string): number {
     const splittedInput = input.split(" ")
     const stack: number[] = []
 

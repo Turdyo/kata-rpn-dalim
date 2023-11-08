@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const itParam = require('mocha-param');
 
-const { evaluateRPN } = require('../src/rpn');
+const { evaluateRPN } = require('../main/rpn');
 
 describe('RPN', function () {
     describe('normal cases for evaluateRPN function', function () {
