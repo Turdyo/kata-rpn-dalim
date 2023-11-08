@@ -22,9 +22,9 @@ describe('RPN', function () {
 
         var testCasesDivide = [
             { input: '99 9 /', expected: '11' },
-            { input: '120 2 6 / /', expected: '10' },
-            { input: '9 2 /', expected: '4' }, // Assuming the evaluateRPN function floors the result
-            { input: '9 0 /', expected: new Error('division by zero') }
+            { input: '100 25 5 / /', expected: '20' },
+            { input: '9 2 /', expected: '4.5' }, // Assuming the evaluateRPN function floors the result
+            { input: '9 0 /', expected: "Error: division by zero" }
         ];
 
         var testCasesCombinations = [
@@ -52,7 +52,7 @@ describe('RPN', function () {
             expect(evaluateRPN('a 1 +')).to.be.an('Error: expecting only numbers and operators, got `a`');
         });
         it('should return 0 when the input is empty', function () {
-            expect(evaluateRPN('')).to.equal('0');
+            expect(evaluateRPN('')).to.equal("Error: Input is empty");
         });
         it('should return the number if the input is only one number', function () {
             expect(evaluateRPN('9')).to.equal('9');

@@ -1,21 +1,17 @@
 const symbols = ["+", "-", "*", "/", "sqrt", "max"];
 
 export function evaluateRPN(input: string): string {
-    return evaluateRPNInt(input).toString();
-}
-
-export function evaluateRPNInt(input: string): number {
     const splittedInput = input.split(" ")
     const stack: number[] = []
 
     if (splittedInput.length === 0) {
-        return 0;
+        return "Error: Input is empty";
     }
     if (splittedInput.length === 1) {
-        return splittedInput.at[0];
+        return splittedInput.at[0].toString();
     }
     if (symbols.includes(splittedInput[0])) {
-        throw new Error("Error : expecting to start with numbers")
+        return "Error: expecting to start with numbers"
     }
 
     for (const token of splittedInput) {
@@ -38,11 +34,11 @@ export function evaluateRPNInt(input: string): number {
                 case "/":
                     const number3 = Number(stack.pop())
                     const number4 = Number(stack.pop())
-                    if (number3 === 0) throw new Error("Error: division by zero")
+                    if (number3 === 0) return "Error: division by zero"
                     stack.push(number4 / number3);
                     break;
                 case "sqrt":
-                    if (tmp.length >= 2) throw new Error("Error: sqrt need one number")
+                    if (tmp.length >= 2) "Error: sqrt need one number"
                     tmp.push(Math.sqrt(number1));
                     break;
 
@@ -52,8 +48,12 @@ export function evaluateRPNInt(input: string): number {
             }
         }
     }
-    return stack.at(0);
+    if (stack.length === 0) {
+        return "Error: Input is empty"
+    }
+    return stack.at(0).toString();
 }
+
 
 
 // trouver le symbole
