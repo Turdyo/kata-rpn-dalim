@@ -38,6 +38,9 @@ describe('RPN', function () {
             it('should return int if result is float', function () {
                 expect(evaluateRPN('9 2 /')).to.be.an(4);
             });
+            it('should return error if divide by 0', function () {
+                expect(evaluateRPN('9 0 /')).to.be.an('Error: division by zero');
+            });
         });
     });
 
